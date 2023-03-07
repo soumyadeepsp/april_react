@@ -5,6 +5,10 @@ import Views from './Views';
 
 function Note(props) {
   const [title, setTitle] = useState(props.title);
+  const [description, setDescription] = useState("");
+  useEffect(() => {
+    console.log("hello world!");
+  }, [description]);
   function changeTitle() {
     // title = "Hello World";
     setTitle("Hello World");

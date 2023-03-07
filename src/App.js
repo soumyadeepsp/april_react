@@ -2,6 +2,10 @@ import {useState} from 'react';
 import './App.css';
 import Note from './components/Note';
 import axios from "axios";
+import SignupForm from './components/SignupForm';
+import SigninForm from './components/SigninForm';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Profile from './pages/Profile';
 
 function App() {
   const [name, setName] = useState("");
@@ -47,12 +51,21 @@ function App() {
     <div className="App">
       {name}
       {console.log('hello world')}
-      <form onSubmit={(event) => event.preventDefault()} enctype='multipart/form-data'>
-        <input onChange={changeName} id='name_input' type='text' name='name' placeholder='Your name'></input>
-        <input onChange={changeAbout} type='text' name='about' placeholder='About your note'></input>
-        <input type='file' name='note'></input>
-        <input onClick={callApi} id='submit' type='submit' value='Upload'></input>
-      </form>
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={
+                <form onSubmit={(event) => event.preventDefault()} enctype='multipart/form-data'>
+                <input onChange={changeName} id='name_input' type='text' name='name' placeholder='Your name'></input>
+                <input onChange={changeAbout} type='text' name='about' placeholder='About your note'></input>
+                <input type='file' name='note'></input>
+                <input onClick={callApi} id='submit' type='submit' value='Upload'></input>
+              </form>
+              }/>
+              <Route path="/users/signup" element={<SignupForm/>}/>
+              <Route path="/users/signin" element={<SigninForm/>}/>
+              <Route path="/users/profile" element={<Profile/>}/>
+          </Routes>
+      </BrowserRouter>
       {/* entire website lies here inside App div */}
       {arr.map(function(item) {
         return <Note title={item.title} likes={item.likes} views={item.views}/>
