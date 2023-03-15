@@ -6,6 +6,9 @@ import SignupForm from './components/SignupForm';
 import SigninForm from './components/SigninForm';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Profile from './pages/Profile';
+import AuthState from './context/authContext/authState';
+import AuthContext from './context/authContext/authContext';
+import ShowSingleNote from './components/ShowSingleNote';
 
 function App() {
   const [name, setName] = useState("");
@@ -48,7 +51,8 @@ function App() {
     title:"Biology", likes:"6", views:"7"
   }];
   return (
-    <div className="App">
+    <AuthState>
+      <div className="App">
       {name}
       {console.log('hello world')}
       <BrowserRouter>
@@ -64,6 +68,7 @@ function App() {
               <Route path="/users/signup" element={<SignupForm/>}/>
               <Route path="/users/signin" element={<SigninForm/>}/>
               <Route path="/users/profile" element={<Profile/>}/>
+              <Route path='/notes/showNotes' element={<ShowSingleNote/>}/>
           </Routes>
       </BrowserRouter>
       {/* entire website lies here inside App div */}
@@ -75,6 +80,7 @@ function App() {
       <Note title="Maths" likes="0" views="7"/>
       <Note title="Biology" likes="6" views="7"/> */}
     </div>
+    </AuthState>
   );
 }
 

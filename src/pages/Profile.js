@@ -1,32 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import '../assets/css/Likes.css';
 import axios from 'axios';
+import AuthContext from '../context/authContext/authContext';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
+    const {user, setUser} = useContext(AuthContext);
+    const navigate = useNavigate();
     useEffect(async () => {
-        console.log("use effect is getting called");
-        var res = await axios.get('http://localhost:8000/users/check_authentication');
-        console.log(res);
-        // if (res.data.success==false) {
-        //     window.location = 'http://localhost:3006/users/signin';
-        // }
+        if (user.id===undefined) {
+            console.log(user);
+            navigate('/users/signin');
+        }
     }, []);
     const logout = async (e) => {
-        console.log("user is going to log out");
         try {
             var res = await axios.get('http://localhost:8000/users/logout');
-            console.log("response => "+res);
             if (res.data.success==true) {
-                window.location = 'http://localhost:3006/users/signin';
+                setUser({id: undefined, name: undefined});
+                navigate('/users/signin');
             }
         } catch(err) {
             console.log("error: ", err);
         }
     }
+    const showNotes = () => {
+        navigate('/notes/showNotes');
+    }
     return (
         <div className='Profile'>
             <h1>profile</h1>
             <button onClick={logout}>Logout</button>
+            <button onClick={showNotes}>Show all notes</button>
         </div>
     );
 }
